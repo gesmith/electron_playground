@@ -4,16 +4,12 @@ module.exports = function(environment) {
   var ENV = {
     modulePrefix: 'electron-playground',
     environment: environment,
-    rootURL: '/',
-    locationType: 'auto',
+    rootURL: null,
+    locationType: process.env.EMBER_CLI_ELECTRON ? 'hash' : 'auto',
     EmberENV: {
       FEATURES: {
         // Here you can enable experimental features on an ember canary build
         // e.g. 'with-controller': true
-      },
-      EXTEND_PROTOTYPES: {
-        // Prevent Ember Data from overriding Date.parse.
-        Date: false
       }
     },
 
@@ -33,6 +29,7 @@ module.exports = function(environment) {
 
   if (environment === 'test') {
     // Testem prefers this...
+
     ENV.locationType = 'none';
 
     // keep test console output quieter
@@ -43,7 +40,6 @@ module.exports = function(environment) {
   }
 
   if (environment === 'production') {
-
   }
 
   return ENV;
