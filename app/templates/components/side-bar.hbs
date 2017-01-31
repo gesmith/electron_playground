@@ -5,7 +5,7 @@
         {{#each model as |file|}}
           {{#if file.isDirectory }}
           <li class="nav-item">
-            <a class="nav-link" href="#">{{file.base}} <span class="sr-only">(current)</span></a>
+            {{#link-to "files" file.filePath class="nav-link"}}{{file.base}}{{/link-to}}
           </li>
           {{/if}}
         {{/each}}

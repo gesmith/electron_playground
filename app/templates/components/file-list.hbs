@@ -6,15 +6,21 @@
         <th>Name</th>
         <th>Type</th>
         <th>Size</th>
+        <th>Last Modified</th>
       </tr>
     </thead>
     <tbody>
-      {{#each selected as |file|}}
+      {{#each files as |file|}}
       <tr>
         <td></td>
-        <td><a href="">{{file.base}}</a></td>
+        {{#if file.isDirectory}}
+        <td>{{#link-to "files" file.filePath class="nav-link"}}{{file.base}}{{/link-to}}</td>
+        {{else}}
+        <td>{{file.base}}</td>
+        {{/if}}
         <td>{{file.fileType}}</td>
-        <td>dolor</td>
+        <td>{{file.fileSize}}</td>
+        <td>{{file.mtime}}</td>
       </tr>
       {{/each}}
     </tbody>

@@ -1,0 +1,8 @@
+<div class="row">
+  {{side-bar model=model.sideBarModel}}
+  <main class="col-sm-9 offset-sm-3 col-md-10 offset-md-2 pt-3">
+    <h3>{{model.filePath}}</h3>
+
+    {{file-list filePath=filePath files=model.fileListModel}}
+  </main>
+</div>
