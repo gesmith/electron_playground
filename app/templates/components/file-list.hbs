@@ -1,6 +1,6 @@
 <div class="table-responsive">
-  <table class="table table-striped">
-    <thead>
+  <table class="table table-striped table-hover table-sm">
+    <thead class="thead-default">
       <tr>
         <th></th>
         <th>Name</th>
@@ -12,11 +12,12 @@
     <tbody>
       {{#each files as |file|}}
       <tr>
-        <td></td>
         {{#if file.isDirectory}}
+        <td><div class="folder-icon"></div></td>
         <td>{{#link-to "files" file.filePath class="nav-link"}}{{file.base}}{{/link-to}}</td>
         {{else}}
-        <td>{{file.base}}</td>
+        <td></td>
+        <td><a href="" {{action "openFile" file.filePath}}>{{file.base}}</a></td>
         {{/if}}
         <td>{{file.fileType}}</td>
         <td>{{file.fileSize}}</td>

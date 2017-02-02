@@ -1,16 +1,17 @@
 import Ember from 'ember';
-import { readDirectory } from '../utils/read-directory';
+import { formatFilePath } from '../utils/format-filepath';
 
 export default Ember.Route.extend({
+  readDirectory: Ember.inject.service(),
   model(params) {
-    const filePath = params.folder_id === 'root' ? process.env['HOME'] : params.folder_id;
-    var sideBarModel = readDirectory();
-    var fileListModel = readDirectory(filePath);
+    const filePath = params.file_path === 'root' ? process.env['HOME'] : params.file_path;
+    let sideBarDirectory = this.get('readDirectory').path();
+    let currentDirectory = this.get('readDirectory').path(filePath);
 
     return Ember.RSVP.hash({
-      filePath: filePath,
-      sideBarModel: sideBarModel,
-      fileListModel: fileListModel
+      sideBarDirectory: sideBarDirectory,
+      currentDirectory: currentDirectory,
+      filePath: formatFilePath(filePath)
     });
   }
 });

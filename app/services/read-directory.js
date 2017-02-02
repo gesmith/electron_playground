@@ -45,36 +45,38 @@ function humanFileSize(size) {
 
 const rootPath = process.env['HOME'];
 
-export function readDirectory(dir = rootPath) {
-  var callback = (resolve, reject) => {
-    fs.readdir(dir, (error, files) => {
-      if (error) {
-        window.alert(error.message);
-        return reject(error);
-      }
-      var filteredFiles = files.filter(file => {
-        // Filter out all junk files and files that start with '.'
-        if (junk.not(file) && file.indexOf('.') !== 0) { return file; }
-      });
-      var fileObjects = filteredFiles.map(file => {
-        let filePath = path.join(dir, file);
-        let fileStat = fs.statSync(filePath);
-        let fileSize = fileStat.size ? humanFileSize(fileStat.size) : '';
-        // Directories do not have an extension, hardcode it as 'directory'
-        let fileExt = fileStat.isDirectory() ? 'directory' : path.extname(filePath).substr(1);
-        let parsedPath = path.parse(filePath);
+export default Ember.Service.extend({
+  path(dir = rootPath) {
+    var callback = (resolve, reject) => {
+      fs.readdir(dir, (error, files) => {
+        if (error) {
+          window.alert(error.message);
+          return reject(error);
+        }
+        var filteredFiles = files.filter(file => {
+          // Filter out all junk files and files that start with '.'
+          if (junk.not(file) && file.indexOf('.') !== 0) { return file; }
+        });
+        var fileObjects = filteredFiles.map(file => {
+          let filePath = path.join(dir, file);
+          let fileStat = fs.statSync(filePath);
+          let fileSize = fileStat.size ? humanFileSize(fileStat.size) : '';
+          // Directories do not have an extension, hardcode it as 'directory'
+          let fileExt = fileStat.isDirectory() ? 'directory' : path.extname(filePath).substr(1);
+          let parsedPath = path.parse(filePath);
 
-        let opts = {
-          filePath,
-          fileExt,
-          fileSize,
-          ...fileStat,
-          ...parsedPath
-        };
-        return new FileProxy(opts);
+          let opts = {
+            filePath,
+            fileExt,
+            fileSize,
+            ...fileStat,
+            ...parsedPath
+          };
+          return new FileProxy(opts);
+        });
+        resolve(fileObjects);
       });
-      resolve(fileObjects);
-    });
+    }
+    return new Promise(callback);
   }
-  return new Promise(callback);
-}
+});

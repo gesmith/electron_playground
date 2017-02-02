@@ -23,7 +23,7 @@ h1 {
 
 .sidebar {
   position: fixed;
-  top: 51px;
+  top: 98px;
   bottom: 0;
   left: 0;
   z-index: 1000;
@@ -55,16 +55,20 @@ h1 {
   border-radius: 0;
 }
 
-/*
- * Dashboard
- */
-
- /* Placeholders */
-.placeholders {
-  padding-bottom: 3rem;
+.folder-icon {
+  width: 2rem;
+  height: 2rem;
+  background: url('folder-icon.png') no-repeat center;
+  background-size: 100% 100%;
 }
 
-.placeholder img {
-  padding-top: 1.5rem;
-  padding-bottom: 1.5rem;
+.breadcrumb {
+  position: fixed;
+  top: 51px;
+  z-index: 1000;
+  width: 100%;
+}
+
+.file-list {
+  margin-top: 45px;
 }

@@ -6,6 +6,7 @@ const path                 = require('path');
 const app                  = electron.app;
 const BrowserWindow        = electron.BrowserWindow;
 const dirname              = __dirname || path.resolve(path.dirname());
+const iconPath             = `${dirname}/dist/assets/folder-icon.png`;
 const emberAppLocation     = `file://${dirname}/dist/index.html`;
 
 let mainWindow = null;
@@ -26,11 +27,11 @@ app.on('window-all-closed', function onWindowAllClosed() {
     }
 });
 
+// app.dock.setIcon(iconPath);
+
 app.on('ready', function onReady() {
-    mainWindow = new BrowserWindow({
-        width: 800,
-        height: 600
-    });
+    const {width, height} = electron.screen.getPrimaryDisplay().workAreaSize;
+    mainWindow = new BrowserWindow({width, height});
 
     delete mainWindow.module;
 
