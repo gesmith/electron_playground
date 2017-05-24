@@ -1,7 +1,8 @@
 # electron-playground
 
-This README outlines the details of collaborating on this Ember application.
-A short introduction of this app could easily go here.
+This is a desktop file-management app that I created for my [blog post on Big Nerd Ranch](https://www.bignerdranch.com/blog/ember-js-and-electron-build-desktop-apps-with-web-technologies/)'s blog. Built with ElectronJS, EmberJS and Node.
+
+![File Management App Screenshot](https://github.com/gesmith/electron_playground/blob/master/file-manager-app-screenshot.png)
 
 ## Prerequisites
 
