@@ -1,23 +1,7 @@
-<div class="row">
-  <nav class="breadcrumb">
-      {{#each model.filePath as |path|}}
-        {{#link-to 'files' path.relPath class="breadcrumb-item" }}{{path.name}}{{/link-to}}
-      {{/each}}
-  </nav>
-</div>
+{{folder-breadcrumbs filePath=model.filePath}}
 <div class="row">
   {{side-bar model=model.sideBarDirectory}}
   <main class="col-sm-9 offset-sm-3 col-md-10 offset-md-2 pt-3">
-    {{file-list filePath=filePath files=model.currentDirectory}}
+    {{file-list files=model.currentDirectory}}
   </main>
 </div>
-{{!--
-<div class="row">
-  {{side-bar model=model.sideBarModel}}
-  <main class="col-sm-9 offset-sm-3 col-md-10 offset-md-2 pt-3">
-    <nav class="breadcrumb">
-      {{model.filePath}}
-    </nav>
-    {{file-list filePath=filePath files=model.fileListModel}}
-  </main>
-</div>--}}

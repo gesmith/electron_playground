@@ -3,8 +3,9 @@ const fs = require('fs');
 const path = require('path');
 const junk = require('junk');
 const Promise = Ember.RSVP.Promise;
+const computed = Ember.computed;
 
-var map = {
+const map = {
   'directory': ['directory'],
   'compressed': ['zip', 'rar', 'gz', '7z'],
   'text': ['txt', 'md', 'pages', ''],
@@ -14,34 +15,28 @@ var map = {
   'html': ['html'],
   'word': ['doc', 'docx'],
   'powerpoint': ['ppt', 'pptx'],
-  'movie': ['mkv', 'avi', 'rmvb'],
+  'video': ['mkv', 'avi', 'rmvb']
 };
 
 var FileProxy = Ember.ObjectProxy.extend({
-  fileType: Ember.computed('fileExt', function() {
+  fileType: computed('fileExt', function() {
     var ext = this.get('fileExt');
-    for (var key in map) {
-      if (map[key].includes(ext)) { return key; }
-    }
+    return Object.keys(map).find(type => map[type].includes(ext));
   }),
-  isDirectory: Ember.computed('fileType', function() {
-    if (this.get('fileType') === 'directory') {
-      return true;
-    } else {
-      return false;
-    }
+  isDirectory: computed('fileType', function() {
+    return this.get('fileType') === 'directory';
   }),
-  icon: Ember.computed('fileType', function() {
+  icon: computed('fileType', function() {
     if (this.get('fileType') === 'directory') {
       return 'assets/folder-icon.png';
     }
   })
 });
 
-function humanFileSize(size) {
-    var i = Math.floor( Math.log(size) / Math.log(1024) );
-    return ( size / Math.pow(1024, i) ).toFixed(2) * 1 + ' ' + ['B', 'kB', 'MB', 'GB', 'TB'][i];
-}
+var humanFileSize = size => {
+  var i = Math.floor( Math.log(size) / Math.log(1024) );
+  return ( size / Math.pow(1024, i) ).toFixed(2) * 1 + ' ' + ['B', 'kB', 'MB', 'GB', 'TB'][i];
+};
 
 const rootPath = process.env['HOME'];
 
@@ -53,10 +48,8 @@ export default Ember.Service.extend({
           window.alert(error.message);
           return reject(error);
         }
-        var filteredFiles = files.filter(file => {
-          // Filter out all junk files and files that start with '.'
-          if (junk.not(file) && file.indexOf('.') !== 0) { return file; }
-        });
+        // Filter out all junk files and files that start with '.'
+        var filteredFiles = files.filter(file => junk.not(file) && file[0] !== '.');
         var fileObjects = filteredFiles.map(file => {
           let filePath = path.join(dir, file);
           let fileStat = fs.statSync(filePath);
@@ -76,7 +69,7 @@ export default Ember.Service.extend({
         });
         resolve(fileObjects);
       });
-    }
+    };
     return new Promise(callback);
   }
 });

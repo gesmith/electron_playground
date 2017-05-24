@@ -1,0 +1,7 @@
+<div class="row">
+  <nav class="breadcrumb">
+      {{#each filePath as |pathObj|}}
+        {{#link-to 'files' pathObj.path class="breadcrumb-item" }}{{pathObj.name}}{{/link-to}}
+      {{/each}}
+  </nav>
+</div>
